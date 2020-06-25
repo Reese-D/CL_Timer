@@ -1,11 +1,20 @@
+(defpackage :CL_Timer
+  (:use :common-lisp)
+  (:export :defunt_t
+	   :times
+	   :nothing)
+  (:shadow :defun))
+
+(in-package :CL_Timer)
+
 (defvar times '())
 
 ;;times contains lists, each list is one function call. Each list has the following structure
 ;;(Function_Name (Arguments) real_run_time internal_run_time)
 
-(defmacro defun_t (name args body)
+(defmacro defun (name args body)
   (let ((return-val (gensym)))
-    `(defun ,name ,args
+    `(common-lisp:defun ,name ,args
        (let ((real-base (get-internal-real-time))
 	     (run-base (get-internal-run-time))
 	     (,return-val ,body))
@@ -16,11 +25,11 @@
 			     times))
 	 ,return-val))))
 
-(defun_t wait_t (x)
+(defun wait_t (x)
   (sleep x))
 
 
-(defun_t nothing (x y z)
+(defun nothing (x y z)
   (list x y z))
 
 
