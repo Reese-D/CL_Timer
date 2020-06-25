@@ -1,37 +1,7 @@
-;; (defun test (x &optional y &rest c)
-;;   (list x y c))
-
-;; (defun test2 (x y z)
-;;   (list x y z))
-
-(defmacro defun_test (name args body)
-  `(defun ,name ,args ,body))
-
-;; (defun_test d_test (x y c)
-;;   (list x y c))
-
-(defun_test test3 (x &optional y &rest c)
-  (list x y c))
-
-
-(defun wait (x)
-  (let ((start)
-	(end))
-    (setf start (get-universal-time))
-    (sleep x)
-    (setf end (get-universal-time))
-    (- end start)))
-
-(defmacro timings (function)
-  `(let ((real-base (get-internal-real-time))
-	 (run-base (get-internal-run-time)))
-     ,function
-     (values (/ (- (get-internal-real-time) real-base) internal-time-units-per-second)
-	     (/ (- (get-internal-run-time) run-base) internal-time-units-per-second))))
-
-
 (defvar times '())
 
+;;times contains lists, each list is one function call. Each list has the following structure
+;;(Function_Name (Arguments) real_run_time internal_run_time)
 
 (defmacro defun_t (name args body)
   (let ((return-val (gensym)))
@@ -40,7 +10,7 @@
 	     (run-base (get-internal-run-time))
 	     (,return-val ,body))
 	 (setf times (cons (list ',name
-				   ',args
+				   (list ,@args)
 				   (/ (- (get-internal-real-time) real-base) internal-time-units-per-second)
 				   (/ (- (get-internal-run-time) run-base) internal-time-units-per-second))
 			     times))
@@ -48,4 +18,10 @@
 
 (defun_t wait_t (x)
   (sleep x))
+
+
+(defun_t nothing (x y z)
+  (list x y z))
+
+
 
