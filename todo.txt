@@ -1,0 +1,15 @@
+Lock the value somehow so in case of multithreading to make writes atomic
+
+Add a way to disable the defun, so that it doesn't expand to include the timers (acts as normal defun for production code)
+
+Add traversal for the times object and useful functions for it
+
+Add testing files
+
+Find a way to package/build
+
+?? create elisp version?
+
+?? create an actual object to depict time object instead of list
+
+?? Shadow the actual "defun" function from common lisp package (dangerous?) or add a function that can be used to shadow the defun function if needed so that it can be applied to all functions
